@@ -1,0 +1,26 @@
+@import "../../../../styles.scss";
+
+.login-form {
+  width: 100%;
+  padding: 1rem;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    align-self: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .login-inputs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-submit-container {
+    width: 100%;
+    padding-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+}

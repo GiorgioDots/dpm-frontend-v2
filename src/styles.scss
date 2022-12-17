@@ -1,1 +1,142 @@
-/* You can add global styles to this file, and also import other style files */
+$background: #2c3333;
+$primary: #395b64;
+$secondary: #a5c9ca;
+$font-color: #e7f6f2;
+$error: #771313;
+$info: #126388;
+$success: #137748;
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+// Tablets and small desktops
+$screen-lg-min: 992px;
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  color: $font-color;
+}
+
+input {
+  background-color: lighten($color: $background, $amount: 5);
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 0.5rem;
+  outline-width: 0;
+  width: 100%;
+}
+
+input.ng-touched.ng-dirty.ng-invalid {
+  border: 2px solid $error;
+}
+
+input:focus {
+  border: 2px solid $primary;
+}
+
+button {
+  background-color: $primary;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 80px;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: lighten($color: $primary, $amount: 2);
+}
+
+button:active {
+  background-color: darken($color: $primary, $amount: 5);
+}
+
+a:hover {
+  color: $secondary;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: $background;
+}
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.errorLabel {
+  color: lighten($error, 20);
+  text-decoration: underline;
+  font-size: 0.8rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.message-banner {
+  margin: 0.5rem;
+  margin-right: 1rem;
+  padding: 0.5rem;
+  padding-top: 2rem;
+  width: 300px;
+  text-align: justify;
+  text-justify: inter-word;
+  position: relative;
+
+  &.message-banner-error {
+    background-color: $error;
+  }
+
+  &.message-banner-success {
+    background-color: $success;
+  }
+
+  &.message-banner-info {
+    background-color: $info;
+  }
+}
+
+// Small devices
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+
+// customizable
+@mixin rwd($screen) {
+  @media (min-width: ($screen+"px")) {
+    @content;
+  }
+}

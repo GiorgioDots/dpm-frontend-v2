@@ -1,0 +1,43 @@
+<div
+  style="
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  "
+>
+  <img
+    src="assets/icons/icon-512x512.png"
+    style="max-width: 140px; max-height: 140px"
+  />
+  <h1 style="padding-top: 1rem; font-size: 2.5rem; text-align: center">
+    ~ Welcome! ~
+  </h1>
+  <form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="login()">
+    <div class="login-inputs">
+      <h4 class="label">Username / Email</h4>
+      <input type="text" formControlName="login" />
+      <label class="errorLabel" *ngIf="loginControlInvalid">
+        Username / Email is mandatory
+      </label>
+      <h4 class="label" style="margin-top: 0.5rem">Password</h4>
+      <input type="password" formControlName="password" />
+      <label class="errorLabel" *ngIf="passwordControlInvalid">
+        Password must be minimum 8 characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character between
+        @.$!%*?&
+      </label>
+    </div>
+    <div class="login-submit-container">
+      <button style="width: 100%; margin-top: 1.37rem" type="submit">
+        LOGIN
+      </button>
+    </div>
+    <a
+      style="font-size: 0.8rem; margin-top: 0.5rem; align-self: flex-end"
+      [routerLink]="['/signup']"
+      >Don't have an account?</a
+    >
+  </form>
+</div>
