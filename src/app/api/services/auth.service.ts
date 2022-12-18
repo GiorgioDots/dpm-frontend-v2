@@ -1,8 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { authResponseDTO, loginDTO } from '../Models/auth/authDTOs';
+import {
+  authResponseDTO,
+  loginDTO,
+  refreshTokenDTO,
+  signupDTO,
+} from '../Models/auth/authDTOs';
+import { messageDTO } from '../Models/messageDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +16,28 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   public async login(login: loginDTO): Promise<authResponseDTO> {
-    const request = this.http.post<authResponseDTO>(
-      `${environment.baseUrl}/auth/login`,
-      login
-    );
-    return lastValueFrom(request);
+    return this.http
+      .post<authResponseDTO>(`${environment.baseUrl}/auth/login`, login)
+      .toPromise();
+  }
+
+  public async signUp(signupValues: signupDTO): Promise<messageDTO> {
+    return this.http
+      .post<authResponseDTO>(`${environment.baseUrl}/auth/signup`, signupValues)
+      .toPromise();
+  }
+
+  public async refreshToken(value: refreshTokenDTO): Promise<authResponseDTO> {
+    return this.http
+      .post<authResponseDTO>(
+        `${environment.baseUrl}/auth/refresh-token`,
+        value,
+        {
+          headers: new HttpHeaders({
+            SILENT_CALL: 'true',
+          }),
+        }
+      )
+      .toPromise();
   }
 }

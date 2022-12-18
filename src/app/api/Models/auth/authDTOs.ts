@@ -4,9 +4,20 @@ export interface loginDTO {
 }
 
 export interface authResponseDTO {
-  Username: string,
-  Token: string,
-  TokenExpiration: number,
-  RefreshToken: string,
-  Message: string
+  Username: string;
+  Token: string;
+  TokenExpiration: number;
+  RefreshToken: string;
+  Message: string;
+}
+
+export interface signupDTO {
+  username: string;
+  email: string;
+  password: string;
+  gdprAgree: boolean;
+}
+
+export interface refreshTokenDTO {
+  RefreshToken: string;
 }

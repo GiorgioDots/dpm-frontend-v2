@@ -1,1 +1,71 @@
-<p>signup works!</p>
+<div
+  style="
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  "
+>
+  <img
+    src="assets/icons/icon-512x512.png"
+    style="max-width: 140px; max-height: 140px"
+  />
+  <form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="signup()">
+    <div class="login-inputs">
+      <h4 class="label">Username</h4>
+      <input type="text" formControlName="username" />
+      <label class="errorLabel" *ngIf="usernameControlInvalid">
+        Username is mandatory
+      </label>
+
+      <h4 class="label" style="margin-top: 0.5rem">Email</h4>
+      <input type="text" formControlName="email" />
+      <label class="errorLabel" *ngIf="emailControlInvalid">
+        Invalid email
+      </label>
+
+      <h4 class="label" style="margin-top: 0.5rem">Password</h4>
+      <input type="password" formControlName="password" />
+      <label class="errorLabel" *ngIf="passwordControlInvalid">
+        Password must be minimum 8 characters, at least one uppercase letter,
+        one lowercase letter, one number and one special character between
+        @.$!%*?&
+      </label>
+
+      <div style="margin-top: 0.5rem; display: flex; align-items: center">
+        <input
+          type="checkbox"
+          id="gdpr"
+          name="gdpr"
+          formControlName="gdprAgree"
+          style="width: auto"
+        />
+        <label for="gdpr" style="width: 100%; margin-left: 0.5rem">
+          Agree to
+          <a
+            style="text-decoration: underline; cursor: pointer"
+            target="_blank"
+            [routerLink]="['/gdpr']"
+            >Terms and services?
+          </a>
+        </label>
+      </div>
+      <label class="errorLabel" *ngIf="gdprControlInvalid">
+        You must agree to terms and services to sign up
+      </label>
+    </div>
+    <div class="signup-actions-container">
+      <button
+        style="width: 100%; margin-top: 1.37rem; margin-right: 1rem"
+        type="button"
+        [routerLink]="['/']"
+      >
+        RETURN
+      </button>
+      <button style="width: 100%; margin-top: 1.37rem" type="submit">
+        SIGN UP
+      </button>
+    </div>
+  </form>
+</div>

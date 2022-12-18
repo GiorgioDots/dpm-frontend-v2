@@ -48,7 +48,7 @@ export class Message {
     this.message = message;
     this.type = type;
     setTimeout(() => {
-      // if (this.onNoMoreVisible != null) this.onNoMoreVisible(this);
+      if (this.onNoMoreVisible != null) this.onNoMoreVisible(this);
     }, time);
   }
 }

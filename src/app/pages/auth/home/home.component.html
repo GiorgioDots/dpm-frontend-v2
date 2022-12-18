@@ -1,11 +1,5 @@
 <div
-  style="
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  "
+  class="container"
 >
   <img
     src="assets/icons/icon-512x512.png"
@@ -34,10 +28,16 @@
         LOGIN
       </button>
     </div>
-    <a
-      style="font-size: 0.8rem; margin-top: 0.5rem; align-self: flex-end"
-      [routerLink]="['/signup']"
-      >Don't have an account?</a
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+      "
     >
+      <a [routerLink]="['/forgot-password']">Forgot credentials?</a>
+      <a [routerLink]="['/signup']">Don't have an account?</a>
+    </div>
   </form>
 </div>

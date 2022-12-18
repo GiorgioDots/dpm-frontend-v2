@@ -1,5 +1,13 @@
 @import "../../../../styles.scss";
 
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .login-form {
   width: 100%;
   padding: 1rem;
@@ -19,7 +27,6 @@
 
   .login-submit-container {
     width: 100%;
-    padding-top: 0.5rem;
     display: flex;
     flex-direction: column;
   }

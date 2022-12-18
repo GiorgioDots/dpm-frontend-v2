@@ -21,6 +21,16 @@ $screen-xl-min: 1200px;
   padding: 0;
   font-family: "Open Sans", sans-serif;
   color: $font-color;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid lighten($color: $background, $amount: 5) !important;
+  &.lighter {
+    border-top: 2px solid lighten($color: $background, $amount: 10) !important;
+  }
 }
 
 input {
@@ -30,6 +40,12 @@ input {
   padding: 0.5rem;
   outline-width: 0;
   width: 100%;
+
+  &[type="text"] {
+    &::placeholder {
+      color: darken($color: $font-color, $amount: 10);
+    }
+  }
 }
 
 input.ng-touched.ng-dirty.ng-invalid {
@@ -67,6 +83,7 @@ html,
 body {
   height: 100%;
   background-color: $background;
+  color-scheme: dark;
 }
 
 .prevent-select {
@@ -85,6 +102,9 @@ body {
 
 .message-banner {
   margin: 0.5rem;
+  &:first-child {
+    margin-top: 0;
+  }
   margin-right: 1rem;
   padding: 0.5rem;
   padding-top: 2rem;

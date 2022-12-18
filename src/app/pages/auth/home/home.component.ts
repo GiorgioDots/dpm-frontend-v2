@@ -5,9 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { loginDTO } from 'src/app/api/Models/auth/authDTOs';
 import { AuthService } from 'src/app/api/services/auth.service';
-import { authPasswordValidator } from 'src/app/custom-validators/custom-validators';
+import { regexValidator } from 'src/app/custom-validators/custom-validators';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MessagesService } from 'src/app/services/messages.service';
 
 @Component({
@@ -36,15 +38,28 @@ export class HomeComponent implements OnInit {
     login: new FormControl('giodots', [Validators.required]),
     password: new FormControl('Pokerface96.', [
       Validators.required,
-      authPasswordValidator(
+      regexValidator(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.$!%*?&])[A-Za-z\d@.$!%*?&]{8,}$/
       ),
     ]),
   });
 
-  constructor(private authSvc: AuthService, private msgSvc: MessagesService) {}
+  constructor(
+    private authSvc: AuthService,
+    private msgSvc: MessagesService,
+    private router: Router,
+    private authenticationSvc: AuthenticationService
+  ) {
+    let state = this.router.getCurrentNavigation()?.extras?.state as
+      | loginDTO
+      | undefined;
+    if (state == undefined) {
+      return;
+    }
+    this.loginFormGroup.setValue(state);
+  }
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
   public async login() {
     console.log(this.loginFormGroup.invalid);
@@ -54,5 +69,6 @@ export class HomeComponent implements OnInit {
     let loginValues = this.loginFormGroup.getRawValue() as loginDTO;
     const response = await this.authSvc.login(loginValues);
     this.msgSvc.pushSuccessMessage(response.Message);
+    this.authenticationSvc.onLoggedIn(response);
   }
 }

@@ -6,8 +6,12 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
 import { MessagesService } from '../services/messages.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+export const maxRetries = 2;
+export const delayMs = 2000;
 
 @Injectable()
 export class ErrorCatchingInterceptor implements HttpInterceptor {
@@ -18,21 +22,25 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: HttpErrorResponse): Observable<never> => {
         let errorMsg = '';
-        console.log(error);
         if (error.error instanceof ErrorEvent) {
-          console.log('This is client side error');
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          console.log('This is server side error');
-          errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          switch (error.status) {
+            case 401:
+              errorMsg = 'Unauthorized';
+              break;
+            default:
+              errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+              break;
+          }
         }
         if (error.error?.message != undefined) {
           errorMsg = error.error.message;
         }
         this.messagesSvc.pushErrorMessage(errorMsg);
-        return throwError(() => new Error(errorMsg));
+        return throwError(errorMsg);
       })
     );
   }
