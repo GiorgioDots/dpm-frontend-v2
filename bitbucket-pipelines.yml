@@ -25,7 +25,7 @@ pipelines:
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-                AWS_DEFAULT_REGION: eu-central-1
-                S3_BUCKET: giodots-password-manager-dev
-                LOCAL_PATH: "dist/dpm-frontend-v2"
-                ACL: "public-read"
+                AWS_DEFAULT_REGION: 'eu-central-1'
+                S3_BUCKET: 'giodots-password-manager-dev'
+                LOCAL_PATH: 'dist/dpm-frontend-v2'
+                ACL: 'public-read'
