@@ -1,4 +1,4 @@
-import { NgModule, isDevMode, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { AuthService } from './api/services/auth.service';
 import { PasswordsComponent } from './pages/passwords/passwords.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -47,12 +48,15 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     HttpClientModule,
     FontAwesomeModule,
     ClipboardModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
     }),
+    // ServiceWorkerModule.register('ngsw-worker.js', {
+    //   enabled: !environment.production,
+    //   // Register the ServiceWorker as soon as the application is stable
+    //   // or after 30 seconds (whichever comes first).
+    //   registrationStrategy: 'registerWhenStable:30000',
+    // }),
   ],
   providers: [
     {
