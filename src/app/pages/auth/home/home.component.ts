@@ -35,8 +35,8 @@ export class HomeComponent implements OnInit {
   }
 
   public loginFormGroup: FormGroup = new FormGroup({
-    login: new FormControl('giodots-test', [Validators.required]),
-    password: new FormControl('Pokerface96.', [
+    login: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
       Validators.required,
       regexValidator(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.$!%*?&])[A-Za-z\d@.$!%*?&]{8,}$/
