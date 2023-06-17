@@ -17,27 +17,31 @@ import { MessagesService } from 'src/app/services/messages.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
+  get canSave(): boolean {
+    return this.signupFormGroup.dirty && this.signupFormGroup.valid;
+  }
+
   get usernameControlInvalid(): boolean {
-    let control = this.loginFormGroup.get('username');
+    let control = this.signupFormGroup.get('username');
     return this.controlInvalid(control);
   }
 
   get passwordControlInvalid(): boolean {
-    let control = this.loginFormGroup.get('password');
+    let control = this.signupFormGroup.get('password');
     return this.controlInvalid(control);
   }
 
   get emailControlInvalid(): boolean {
-    let control = this.loginFormGroup.get('email');
+    let control = this.signupFormGroup.get('email');
     return this.controlInvalid(control);
   }
 
   get gdprControlInvalid(): boolean {
-    let control = this.loginFormGroup.get('gdprAgree');
+    let control = this.signupFormGroup.get('gdprAgree');
     return this.controlInvalid(control);
   }
 
-  public loginFormGroup: FormGroup = new FormGroup({
+  public signupFormGroup: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -65,16 +69,16 @@ export class SignupComponent implements OnInit {
   }
 
   public async signup() {
-    console.log(this.loginFormGroup.invalid);
-    if (this.loginFormGroup.invalid) {
+    console.log(this.signupFormGroup.invalid);
+    if (this.signupFormGroup.invalid) {
       return;
     }
-    let signupValues = this.loginFormGroup.getRawValue() as signupDTO;
+    let signupValues = this.signupFormGroup.getRawValue() as signupDTO;
 
     const response = await this.authSvc.signUp(signupValues);
-    
-    this.msgSvc.pushSuccessMessage(response.Message);
-    
+
+    this.msgSvc.pushSuccessMessage(response.message);
+
     let loginValues: loginDTO = {
       login: signupValues.username,
       password: signupValues.password,

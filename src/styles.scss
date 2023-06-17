@@ -46,6 +46,51 @@ input {
       color: darken($color: $font-color, $amount: 10);
     }
   }
+  &[type="password"] {
+    &::placeholder {
+      color: darken($color: $font-color, $amount: 10);
+    }
+  }
+}
+
+textarea {
+  background-color: lighten($color: $background, $amount: 5);
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 0.5rem;
+  outline-width: 0;
+  min-width: 100%;
+  min-height: 120px;
+}
+
+.input-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $success;
+  padding: 1rem;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  &:hover {
+    background-color: lighten($color: $success, $amount: 2);
+  }
+  &:active {
+    background-color: darken($color: $success, $amount: 5);
+  }
+  &.input-middle-action-button {
+    border-radius: 0;
+    background-color: $info;
+    &:hover {
+      background-color: lighten($color: $info, $amount: 2);
+    }
+    &:active {
+      background-color: darken($color: $info, $amount: 5);
+    }
+  }
+}
+
+.input-with-action-btn {
+  border-radius: 5px 0 0 5px;
 }
 
 input.ng-touched.ng-dirty.ng-invalid {
@@ -65,14 +110,37 @@ button {
   cursor: pointer;
   min-width: 80px;
   font-size: 1rem;
-}
-
-button:hover {
-  background-color: lighten($color: $primary, $amount: 2);
-}
-
-button:active {
-  background-color: darken($color: $primary, $amount: 5);
+  &:hover {
+    background-color: lighten($color: $primary, $amount: 2);
+  }
+  &:active {
+    background-color: darken($color: $primary, $amount: 5);
+  }
+  &:disabled {
+    background-color: darken($color: $primary, $amount: 10);
+  }
+  &.error {
+    background-color: $error;
+    &:hover {
+      background-color: lighten($color: $error, $amount: 2);
+    }
+    &:active {
+      background-color: darken($color: $error, $amount: 5);
+    }
+  }
+  &.success {
+    background-color: $success;
+    &:hover {
+      background-color: lighten($color: $success, $amount: 2);
+    }
+    &:active {
+      background-color: darken($color: $success, $amount: 5);
+    }
+    &:disabled {
+      cursor: auto;
+      background-color: darken($color: $success, $amount: 10);
+    }
+  }
 }
 
 a:hover {

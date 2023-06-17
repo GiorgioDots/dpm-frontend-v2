@@ -18,20 +18,7 @@ export class AppComponent implements OnInit {
   constructor(
     public messagesSvc: MessagesService,
     private _loading: LoadingService
-  ) {
-    // setInterval(() => messagesSvc.pushErrorMessage('TEST'), 50);
-    // for (let i = 0; i < 50; i++) {
-    //   if (i % 2 == 0) {
-    //     messagesSvc.pushErrorMessage(`message ${i}`);
-    //   } else if (i % 3 == 0) {
-    //     messagesSvc.pushSuccessMessage(
-    //       `message ${i} alsdfjoagir sag asiogj asldgkj asdgoi asjg sadgj sadgioj asdglks adg;ka jegrowivj alrskg asr;gj saroigjae raiogj;a gkjasr gj`
-    //     );
-    //   } else {
-    //     messagesSvc.pushInfoMessage(`message ${i}`);
-    //   }
-    // }
-  }
+  ) {}
   ngOnInit(): void {
     this.listenToLoading();
   }

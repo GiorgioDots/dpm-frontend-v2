@@ -32,7 +32,7 @@ export class AuthenticationService {
   }
 
   public get username(): string {
-    return this.authData?.Username ?? '';
+    return this.authData?.username ?? '';
   }
 
   constructor(private authSvc: AuthService, private router: Router) {}
@@ -40,7 +40,7 @@ export class AuthenticationService {
   public initialize(): void {
     const authData = this.authData;
     if (authData == undefined) return;
-    this.tokenExpiration = authData.TokenExpiration;
+    this.tokenExpiration = this.getTokenExpiration(authData.token);
     this.tokenCheckerInterval = setInterval(async () => {
       if (this.isAuthenticated()) return;
 
@@ -53,7 +53,10 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     if (this.authData == undefined) return false;
     if (this.tokenExpiration == undefined) return false;
-    return this.tokenExpiration - 60 * 1000 > new Date().valueOf();
+    return (
+      (this.tokenExpiration - 60) * 1000 >
+      Math.floor(new Date().getTime() / 1000)
+    );
   }
 
   public onLoggedIn(response: authResponseDTO): void {
@@ -65,17 +68,20 @@ export class AuthenticationService {
   public async refreshToken(): Promise<void> {
     if (this.authData == undefined) return;
     const authData = await this.authSvc.refreshToken({
-      RefreshToken: this.authData.RefreshToken,
+      refreshToken: this.authData.refreshToken,
     });
-    console.log('refreshing token');
     this.authData = authData;
     this.initialize();
   }
 
   logout() {
-    console.log('logging out');
     this.authData = undefined;
     clearInterval(this.tokenCheckerInterval);
     this.router.navigate(['/']);
+  }
+
+  private getTokenExpiration(token: string) {
+    const expiry = JSON.parse(atob(token.split('.')[1]).toString()).exp;
+    return expiry;
   }
 }

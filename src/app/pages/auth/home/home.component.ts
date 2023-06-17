@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   public loginFormGroup: FormGroup = new FormGroup({
-    login: new FormControl('giodots', [Validators.required]),
+    login: new FormControl('giodots-test', [Validators.required]),
     password: new FormControl('Pokerface96.', [
       Validators.required,
       regexValidator(
@@ -62,13 +62,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   public async login() {
-    console.log(this.loginFormGroup.invalid);
     if (this.loginFormGroup.invalid) {
       return;
     }
     let loginValues = this.loginFormGroup.getRawValue() as loginDTO;
     const response = await this.authSvc.login(loginValues);
-    this.msgSvc.pushSuccessMessage(response.Message);
+    this.msgSvc.pushSuccessMessage(response.message);
     this.authenticationSvc.onLoggedIn(response);
   }
 }

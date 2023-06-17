@@ -1,3 +1,3 @@
 export interface messageDTO {
-  Message: string;
+  message: string;
 }

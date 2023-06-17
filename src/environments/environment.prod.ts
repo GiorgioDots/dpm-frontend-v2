@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: "https://43ptrtwf47.execute-api.eu-central-1.amazonaws.com"
+  baseUrl: "https://dpm-backend-v2.onrender.com/"
 };

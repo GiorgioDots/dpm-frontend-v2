@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://43ptrtwf47.execute-api.eu-central-1.amazonaws.com"
+  baseUrl: "http://192.168.1.44:8080"
 };
 
 /*

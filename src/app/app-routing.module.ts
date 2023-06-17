@@ -9,12 +9,19 @@ import { SignupComponent } from './pages/auth/signup/signup.component';
 import { GdprComponent } from './pages/gdpr/gdpr.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PasswordsComponent } from './pages/passwords/passwords.component';
+import { PasswordEditComponent } from './pages/passwords/password-edit/password-edit.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   { path: 'gdpr', component: GdprComponent },
   {
     path: 'passwords',
     component: PasswordsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'passwords/:id',
+    component: PasswordEditComponent,
     canActivate: [AuthGuard],
   },
   { path: 'signup', component: SignupComponent, canActivate: [NotAuthGuard] },
@@ -28,6 +35,7 @@ const routes: Routes = [
     component: PasswordResetComponent,
     canActivate: [NotAuthGuard],
   },
+  { path: 'settings', component: SettingsComponent },
   { path: '', component: HomeComponent, canActivate: [NotAuthGuard] },
   { path: '**', component: PageNotFoundComponent },
 ];

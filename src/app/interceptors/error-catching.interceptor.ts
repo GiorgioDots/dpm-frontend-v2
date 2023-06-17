@@ -23,24 +23,32 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse): Observable<never> => {
-        let errorMsg = '';
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          switch (error.status) {
-            case 401:
-              errorMsg = 'Unauthorized';
-              break;
-            default:
-              errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-              break;
+        let anyError = error.error as any;
+        if (anyError.errors != undefined) {
+          for (let err of anyError.errors) {
+            this.messagesSvc.pushErrorMessage(err.msg);
           }
+          return throwError(error.error);
+        } else {
+          let errorMsg = '';
+          if (error.error instanceof ErrorEvent) {
+            errorMsg = `Error: ${error.error.message}`;
+          } else {
+            switch (error.status) {
+              case 401:
+                errorMsg = 'Unauthorized';
+                break;
+              default:
+                errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+                break;
+            }
+          }
+          if (error.error?.message != undefined) {
+            errorMsg = error.error.message;
+          }
+          this.messagesSvc.pushErrorMessage(errorMsg);
+          return throwError(errorMsg);
         }
-        if (error.error?.message != undefined) {
-          errorMsg = error.error.message;
-        }
-        this.messagesSvc.pushErrorMessage(errorMsg);
-        return throwError(errorMsg);
       })
     );
   }

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MessagesService {
-  
   public messages: Message[] = [];
 
   public onMessageAdded: ((message: Message) => void) | undefined;
@@ -24,7 +23,7 @@ export class MessagesService {
   }
 
   public pushMessage(message: string, type: MessageTypes) {
-    const newMsg = new Message(message, type, 5000);
+    const newMsg = new Message(message, type, 3000);
     newMsg.onNoMoreVisible = (message: Message) => this.removeMessage(message);
     this.messages.push(newMsg);
     if (this.onMessageAdded != undefined) this.onMessageAdded(newMsg);

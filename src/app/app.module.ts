@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   HttpClient,
   HttpClientModule,
@@ -28,6 +28,9 @@ import { AuthService } from './api/services/auth.service';
 import { PasswordsComponent } from './pages/passwords/passwords.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { environment } from 'src/environments/environment';
+import { PasswordEditComponent } from './pages/passwords/password-edit/password-edit.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -40,11 +43,15 @@ import { environment } from 'src/environments/environment';
     LoadingComponent,
     PasswordResetComponent,
     PasswordsComponent,
+    PasswordEditComponent,
+    ModalComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     FontAwesomeModule,
     ClipboardModule,

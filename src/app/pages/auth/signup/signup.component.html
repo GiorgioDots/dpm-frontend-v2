@@ -11,7 +11,7 @@
     src="assets/icons/icon-512x512.png"
     style="max-width: 140px; max-height: 140px"
   />
-  <form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="signup()">
+  <form class="login-form" [formGroup]="signupFormGroup" (ngSubmit)="signup()">
     <div class="login-inputs">
       <h4 class="label">Username</h4>
       <input type="text" formControlName="username" />
@@ -63,7 +63,11 @@
       >
         RETURN
       </button>
-      <button style="width: 100%; margin-top: 1.37rem" type="submit">
+      <button
+        style="width: 100%; margin-top: 1.37rem"
+        type="submit"
+        [disabled]="!canSave"
+      >
         SIGN UP
       </button>
     </div>

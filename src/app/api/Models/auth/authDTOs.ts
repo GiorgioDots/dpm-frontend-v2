@@ -4,11 +4,11 @@ export interface loginDTO {
 }
 
 export interface authResponseDTO {
-  Username: string;
-  Token: string;
-  TokenExpiration: number;
-  RefreshToken: string;
-  Message: string;
+  message: string;
+  userId: string;
+  username: string;
+  token: string;
+  refreshToken: string;
 }
 
 export interface signupDTO {
@@ -19,5 +19,5 @@ export interface signupDTO {
 }
 
 export interface refreshTokenDTO {
-  RefreshToken: string;
+  refreshToken: string;
 }
