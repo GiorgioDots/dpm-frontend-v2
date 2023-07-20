@@ -54,8 +54,7 @@ export class AuthenticationService {
     if (this.authData == undefined) return false;
     if (this.tokenExpiration == undefined) return false;
     return (
-      (this.tokenExpiration - 60) * 1000 >
-      Math.floor(new Date().getTime() / 1000)
+      (this.tokenExpiration - 10) * 1000 > Math.floor(new Date().getTime())
     );
   }
 
@@ -67,11 +66,17 @@ export class AuthenticationService {
 
   public async refreshToken(): Promise<void> {
     if (this.authData == undefined) return;
-    const authData = await this.authSvc.refreshToken({
-      refreshToken: this.authData.refreshToken,
-    });
-    this.authData = authData;
-    this.initialize();
+    try {
+      const authData = await this.authSvc.refreshToken({
+        refreshToken: this.authData.refreshToken,
+      });
+      this.authData = authData;
+      this.initialize();
+      this.router.navigate(['/']);
+    } catch (error) {
+      this.authData = undefined;
+      this.router.navigate(['/']);
+    }
   }
 
   logout() {

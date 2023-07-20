@@ -99,6 +99,7 @@ function initializeAppFactory(
   return () => {
     const promise = new Promise(async (resolve, reject) => {
       try {
+        debugger;
         authenticationSvc.initialize();
         if (authenticationSvc.authData == undefined) {
           return resolve('not authenticated');
