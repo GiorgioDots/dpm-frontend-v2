@@ -17,14 +17,14 @@ export class AuthService {
 
   public async login(login: loginDTO): Promise<authResponseDTO> {
     return this.http
-      .post<authResponseDTO>(`${environment.baseUrl}/api/auth/login`, login)
+      .post<authResponseDTO>(`${environment.baseUrl}/auth/login`, login)
       .toPromise();
   }
 
   public async signUp(signupValues: signupDTO): Promise<messageDTO> {
     return this.http
       .post<authResponseDTO>(
-        `${environment.baseUrl}/api/auth/signup`,
+        `${environment.baseUrl}/auth/signup`,
         signupValues
       )
       .toPromise();
@@ -33,7 +33,7 @@ export class AuthService {
   public async refreshToken(value: refreshTokenDTO): Promise<authResponseDTO> {
     return this.http
       .post<authResponseDTO>(
-        `${environment.baseUrl}/api/auth/refresh-token`,
+        `${environment.baseUrl}/auth/refresh-token`,
         value,
         {
           headers: new HttpHeaders({
@@ -45,7 +45,7 @@ export class AuthService {
   }
   public async deleteAccount(): Promise<messageDTO> {
     return this.http
-      .delete<messageDTO>(`${environment.baseUrl}/api/auth/delete-account`)
+      .delete<messageDTO>(`${environment.baseUrl}/auth/delete-account`)
       .toPromise();
   }
 }

@@ -25,7 +25,6 @@ export class LoadingService {
    * @param url {string}
    */
   setLoading(loading: boolean, url: string): void {
-    // console.log("Setting loading", loading, url)
     if (!url) {
       throw new Error(
         'The request URL must be provided to the LoadingService.setLoading function'
@@ -40,7 +39,6 @@ export class LoadingService {
     if (!call.loading) {
       this.loadingCalls = this.loadingCalls.filter((k) => k.url != url);
     }
-    console.log(loading,this.loadingCalls);
     this.loadingSub.next(this.loadingCalls);
   }
 }

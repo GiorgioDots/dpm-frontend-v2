@@ -67,7 +67,6 @@ export class HomeComponent implements OnInit {
     }
     let loginValues = this.loginFormGroup.getRawValue() as loginDTO;
     const response = await this.authSvc.login(loginValues);
-    this.msgSvc.pushSuccessMessage(response.message);
     this.authenticationSvc.onLoggedIn(response);
   }
 }

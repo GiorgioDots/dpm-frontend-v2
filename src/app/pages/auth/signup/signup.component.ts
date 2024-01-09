@@ -69,7 +69,6 @@ export class SignupComponent implements OnInit {
   }
 
   public async signup() {
-    console.log(this.signupFormGroup.invalid);
     if (this.signupFormGroup.invalid) {
       return;
     }

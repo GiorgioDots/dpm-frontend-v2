@@ -1,10 +1,10 @@
-$background: #2c3333;
-$primary: #395b64;
+$background: #1b1f1f;
+$primary: #007494;
 $secondary: #a5c9ca;
-$font-color: #e7f6f2;
-$error: #771313;
+$font-color: #fafffe;
+$error: #b31111;
 $info: #126388;
-$success: #137748;
+$success: #18945a;
 
 // Small tablets and large smartphones (landscape view)
 $screen-sm-min: 576px;
@@ -30,6 +30,14 @@ hr {
   border-top: 2px solid lighten($color: $background, $amount: 5) !important;
   &.lighter {
     border-top: 2px solid lighten($color: $background, $amount: 10) !important;
+  }
+}
+
+.primary-hr {
+  border: none;
+  border-top: 2px solid lighten($color: $primary, $amount: 5) !important;
+  &.lighter {
+    border-top: 2px solid lighten($color: $primary, $amount: 10) !important;
   }
 }
 

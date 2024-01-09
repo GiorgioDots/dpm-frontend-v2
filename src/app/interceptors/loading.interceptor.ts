@@ -20,13 +20,11 @@ export class LoadingInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (!request.headers.has('SILENT_CALL')) {
-      console.log('setting loading');
       this._loading.setLoading(true, request.url);
     }
     return next.handle(request).pipe(
       finalize(() => {
         if (!request.headers.has('SILENT_CALL')) {
-          console.log('unsetting loading');
           this._loading.setLoading(false, request.url);
         }
       })

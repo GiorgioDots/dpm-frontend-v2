@@ -72,6 +72,7 @@ export class PasswordsComponent implements OnInit {
   }
 
   public passwords: passwordDTO[] = [];
+  public filteredPasswords: passwordDTO[] = [];
 
   public actionContextVisible = false;
 
@@ -90,14 +91,21 @@ export class PasswordsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.search(undefined);
+      this.passwords = await this.pswSvc.getAllPasswords();
+      this.filteredPasswords = this.passwords;
     } catch (error) {
-      console.log(error);
     }
   }
 
   async search(txt: string | undefined) {
-    this.passwords = await this.pswSvc.search(txt);
+    if (txt == undefined) {
+      this.filteredPasswords = this.passwords;
+    } else {
+      let filter = txt.toLowerCase();
+      this.filteredPasswords = this.passwords.filter((k) =>
+        k.name?.toLowerCase()?.includes(filter)
+      );
+    }
   }
 
   logout() {
@@ -118,7 +126,6 @@ export class PasswordsComponent implements OnInit {
 
   async export() {
     let passwords = await this.pswSvc.export();
-
     var jsonPsws = JSON.stringify(passwords);
     var element = document.createElement('a');
     element.setAttribute(
@@ -128,7 +135,7 @@ export class PasswordsComponent implements OnInit {
     element.setAttribute('download', 'export.json');
     element.style.display = 'none';
     document.body.appendChild(element);
-    element.click(); // simulate click
+    element.click();
     document.body.removeChild(element);
   }
 
@@ -140,14 +147,13 @@ export class PasswordsComponent implements OnInit {
 
     let fileReader = new FileReader();
     fileReader.onload = async (e) => {
-      console.log(fileReader.result);
       try {
         let parsed = JSON.parse(
           fileReader.result?.toString() ?? ''
         ) as exportPasswordsDTO;
         let ret = await this.pswSvc.import(parsed);
         this.msgSvc.pushSuccessMessage(ret.message);
-        this.search(this.searchTxt);
+        this.ngOnInit();
       } catch (error: any) {
         this.msgSvc.pushErrorMessage(error.message);
       }
