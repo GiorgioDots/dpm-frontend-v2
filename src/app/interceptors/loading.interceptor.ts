@@ -19,12 +19,17 @@ export class LoadingInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    let isSilent = true;
     if (!request.headers.has('SILENT_CALL')) {
       this._loading.setLoading(true, request.url);
+      isSilent = false;
     }
-    return next.handle(request).pipe(
+    let copy = request.clone({
+      headers: request.headers.delete('SILENT_CALL'),
+    });
+    return next.handle(copy).pipe(
       finalize(() => {
-        if (!request.headers.has('SILENT_CALL')) {
+        if (!isSilent) {
           this._loading.setLoading(false, request.url);
         }
       })
