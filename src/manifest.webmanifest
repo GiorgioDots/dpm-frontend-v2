@@ -1,8 +1,8 @@
 {
-  "name": "dpm-frontend-v2",
-  "short_name": "dpm-frontend-v2",
-  "theme_color": "#2C3333",
-  "background_color": "#2C3333",
+  "name": "Giorgio Dots Password Manager",
+  "short_name": "Dots PM",
+  "theme_color": "#1b1f1f",
+  "background_color": "#1b1f1f",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
