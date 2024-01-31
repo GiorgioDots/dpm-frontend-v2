@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GdprComponent implements OnInit {
 
+  public get now(){
+    return new Date().getFullYear();
+  }
+
   constructor() { }
 
   ngOnInit(): void {

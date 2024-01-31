@@ -27,7 +27,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              "src/googlea348bfdad57376bf.html"
+              "src/googlea348bfdad57376bf.html",
+              "src/sitemap.xml"
             ],
             "styles": [
               "src/styles.scss"
