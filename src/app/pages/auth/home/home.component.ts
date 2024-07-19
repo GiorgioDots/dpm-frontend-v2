@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+
 import { loginDTO } from 'src/app/api/Models/auth/authDTOs';
 import { AuthService } from 'src/app/api/services/auth.service';
 import { regexValidator } from 'src/app/custom-validators/custom-validators';
@@ -48,8 +50,21 @@ export class HomeComponent implements OnInit {
     private authSvc: AuthService,
     private msgSvc: MessagesService,
     private router: Router,
-    private authenticationSvc: AuthenticationService
+    private authenticationSvc: AuthenticationService,
+    private meta: Meta,
+    private title: Title
   ) {
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Log in to start managing your passwords',
+    });
+    this.meta.updateTag({
+      name: 'keywords',
+      content:
+        'password, password manager, gesione password, free, passwords, passwords manager, gestione passwords, giodots password manager, login, log in, authentication',
+    });
+    this.setTitle('GioDots - PM Login');
+
     let state = this.router.getCurrentNavigation()?.extras?.state as
       | loginDTO
       | undefined;
@@ -60,6 +75,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  public setTitle(newTitle: string) {
+    this.title.setTitle(newTitle);
+  }
 
   public async login() {
     if (this.loginFormGroup.invalid) {

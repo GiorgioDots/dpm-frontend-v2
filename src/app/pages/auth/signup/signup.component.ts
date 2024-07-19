@@ -5,6 +5,7 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
+import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { loginDTO, signupDTO } from 'src/app/api/Models/auth/authDTOs';
 import { AuthService } from 'src/app/api/services/auth.service';
@@ -56,10 +57,28 @@ export class SignupComponent implements OnInit {
   constructor(
     private authSvc: AuthService,
     private msgSvc: MessagesService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private meta: Meta,
+    private title: Title
+  ) {
+    this.meta.updateTag({
+      name: 'description',
+      content:
+        'Sign up to create a new account and start managing your passwords',
+    });
+    this.meta.updateTag({
+      name: 'keywords',
+      content:
+        'password, password manager, gesione password, free, passwords, passwords manager, gestione passwords, giodots password manager, signup, sign up, authentication',
+    });
+    this.setTitle('GioDots - PM Sign up');
+  }
 
   ngOnInit(): void {}
+
+  public setTitle(newTitle: string) {
+    this.title.setTitle(newTitle);
+  }
 
   public controlInvalid(control: AbstractControl | null): boolean {
     if (control != null) {
