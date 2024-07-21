@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/dpm-frontend-v2",
+    "public": "dist/dpm-frontend-v3/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

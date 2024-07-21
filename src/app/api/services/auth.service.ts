@@ -1,51 +1,44 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import {
   authResponseDTO,
   loginDTO,
   refreshTokenDTO,
   signupDTO,
-} from '../Models/auth/authDTOs';
-import { messageDTO } from '../Models/messageDTO';
+} from '../models/auth/authDTO';
+import { messageDTO } from '../models/messageDTO';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  get baseUrl() {
+    if (environment.baseUrl.includes('localhost')) {
+      return environment.baseUrl + ':3000/dev';
+    }
+    return environment.baseUrl;
+  }
   constructor(private http: HttpClient) {}
 
-  public async login(login: loginDTO): Promise<authResponseDTO> {
-    return this.http
-      .post<authResponseDTO>(`${environment.baseUrl}/auth/login`, login)
-      .toPromise();
+  public login(login: loginDTO) {
+    return this.http.post<authResponseDTO>(`${this.baseUrl}/auth/login`, login);
   }
 
-  public async signUp(signupValues: signupDTO): Promise<messageDTO> {
-    return this.http
-      .post<authResponseDTO>(
-        `${environment.baseUrl}/auth/signup`,
-        signupValues
-      )
-      .toPromise();
+  public signUp(signupValues: signupDTO) {
+    return this.http.post<authResponseDTO>(
+      `${this.baseUrl}/auth/signup`,
+      signupValues
+    );
   }
 
-  public async refreshToken(value: refreshTokenDTO): Promise<authResponseDTO> {
-    return this.http
-      .post<authResponseDTO>(
-        `${environment.baseUrl}/auth/refresh-token`,
-        value,
-        {
-          headers: new HttpHeaders({
-            SILENT_CALL: 'true',
-          }),
-        }
-      )
-      .toPromise();
+  public refreshToken(value: refreshTokenDTO) {
+    return this.http.post<authResponseDTO>(
+      `${this.baseUrl}/auth/refresh-token`,
+      value
+    );
   }
-  public async deleteAccount(): Promise<messageDTO> {
-    return this.http
-      .delete<messageDTO>(`${environment.baseUrl}/auth/delete-account`)
-      .toPromise();
+  public deleteAccount() {
+    return this.http.delete<messageDTO>(`${this.baseUrl}/auth/delete-account`);
   }
 }

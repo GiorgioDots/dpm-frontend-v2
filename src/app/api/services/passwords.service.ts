@@ -1,76 +1,73 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import {
   createPasswordResponseDTO,
   exportPasswordsDTO,
   passwordDTO,
-} from '../Models/password/passwordDTO';
-import { messageDTO } from '../Models/messageDTO';
+} from '../models/passwords/passwordDTO';
+import { messageDTO } from '../models/messageDTO';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PasswordsService {
+  get baseUrl() {
+    if (environment.baseUrl.includes('localhost')) {
+      return environment.baseUrl + ':3002/dev';
+    }
+    return environment.baseUrl;
+  }
+
   constructor(private http: HttpClient) {}
 
-  public async search(search: string | undefined): Promise<passwordDTO[]> {
-    return this.http
-      .get<passwordDTO[]>(
-        `${environment.baseUrl}/passwords/password?search=${
-          search ? search : ''
-        }`
-      )
-      .toPromise();
+  public search(search: string | undefined) {
+    return this.http.get<passwordDTO[]>(
+      `${this.baseUrl}/passwords/password?search=${search ? search : ''}`
+    );
   }
 
-  public async getAllPasswords(): Promise<passwordDTO[]> {
-    return this.http
-      .get<passwordDTO[]>(`${environment.baseUrl}/passwords`)
-      .toPromise();
+  public getAllPasswords() {
+    return this.http.get<passwordDTO[]>(`${this.baseUrl}/passwords`);
   }
 
-  public async getPassword(id: string): Promise<passwordDTO> {
-    return this.http
-      .get<passwordDTO>(`${environment.baseUrl}/passwords/${id}`)
-      .toPromise();
+  public getPassword(id: string): Observable<passwordDTO> {
+    return this.http.get<passwordDTO>(`${this.baseUrl}/passwords/${id}`);
   }
 
-  public async updatePassword(
-    id: string,
-    password: passwordDTO
-  ): Promise<messageDTO> {
-    return this.http
-      .put<messageDTO>(`${environment.baseUrl}/passwords/${id}`, password)
-      .toPromise();
+  public updatePassword(id: string, password: passwordDTO) {
+    return this.http.put<messageDTO>(
+      `${this.baseUrl}/passwords/${id}`,
+      password
+    );
   }
 
-  public async createPassword(
-    password: passwordDTO
-  ): Promise<createPasswordResponseDTO> {
-    return this.http
-      .post<createPasswordResponseDTO>(
-        `${environment.baseUrl}/passwords`,
-        password
-      )
-      .toPromise();
+  public createPassword(password: passwordDTO) {
+    return this.http.post<createPasswordResponseDTO>(
+      `${this.baseUrl}/passwords`,
+      password
+    );
   }
 
-  public async export(): Promise<exportPasswordsDTO> {
-    return this.http
-      .get<exportPasswordsDTO>(`${environment.baseUrl}/passwords/export`)
-      .toPromise();
+  public export() {
+    return this.http.get<exportPasswordsDTO>(
+      `${this.baseUrl}/passwords/export`
+    );
   }
 
-  public async import(data: exportPasswordsDTO): Promise<messageDTO> {
-    return this.http
-      .post<messageDTO>(`${environment.baseUrl}/passwords/import`, data)
-      .toPromise();
+  public import(data: exportPasswordsDTO) {
+    return this.http.post<messageDTO>(`${this.baseUrl}/passwords/import`, data);
   }
 
-  public async delete(id: string): Promise<messageDTO> {
-    return this.http
-      .delete<messageDTO>(`${environment.baseUrl}/passwords/password/${id}`)
-      .toPromise();
+  public delete(id: string) {
+    return this.http.delete<messageDTO>(`${this.baseUrl}/passwords/${id}`);
+  }
+
+  public togglePreferred(id: string) {
+    return this.http.post<messageDTO>(
+      `${this.baseUrl}/passwords/${id}/toggle-preferred`,
+      {}
+    );
   }
 }

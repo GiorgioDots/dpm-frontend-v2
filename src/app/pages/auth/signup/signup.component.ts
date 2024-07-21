@@ -1,106 +1,88 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  FormGroup,
   FormControl,
+  FormGroup,
+  ReactiveFormsModule,
   Validators,
-  AbstractControl,
 } from '@angular/forms';
-import { Meta, Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { loginDTO, signupDTO } from 'src/app/api/Models/auth/authDTOs';
-import { AuthService } from 'src/app/api/services/auth.service';
-import { regexValidator } from 'src/app/custom-validators/custom-validators';
-import { MessagesService } from 'src/app/services/messages.service';
+import { Router, RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { finalize } from 'rxjs';
+import { loginDTO, signupDTO } from '../../../api/models/auth/authDTO';
+import { CheckboxModule } from 'primeng/checkbox';
+import { AuthService } from '../../../api/services/auth.service';
+import { MessageAdapterService } from '../../../shared/services/message-adapter.service';
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    FloatLabelModule,
+    PasswordModule,
+    RouterModule,
+    CheckboxModule,
+  ],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  styleUrl: './signup.component.scss',
 })
-export class SignupComponent implements OnInit {
-  get canSave(): boolean {
-    return this.signupFormGroup.dirty && this.signupFormGroup.valid;
-  }
+export class SignupComponent {
+  signupForm: FormGroup;
+  loading = false;
+  pswRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[@.$!%*?&])/;
+  strongRegex = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[@.$!%*?&])';
 
-  get usernameControlInvalid(): boolean {
-    let control = this.signupFormGroup.get('username');
-    return this.controlInvalid(control);
-  }
-
-  get passwordControlInvalid(): boolean {
-    let control = this.signupFormGroup.get('password');
-    return this.controlInvalid(control);
-  }
-
-  get emailControlInvalid(): boolean {
-    let control = this.signupFormGroup.get('email');
-    return this.controlInvalid(control);
-  }
-
-  get gdprControlInvalid(): boolean {
-    let control = this.signupFormGroup.get('gdprAgree');
-    return this.controlInvalid(control);
-  }
-
-  public signupFormGroup: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      regexValidator(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.$!%*?&])[A-Za-z\d@.$!%*?&]{8,}$/
-      ),
-    ]),
-    gdprAgree: new FormControl(false, [Validators.requiredTrue]),
-  });
-
-  constructor(
-    private authSvc: AuthService,
-    private msgSvc: MessagesService,
-    private router: Router,
-    private meta: Meta,
-    private title: Title
-  ) {
-    this.meta.updateTag({
-      name: 'description',
-      content:
-        'Sign up to create a new account and start managing your passwords',
+  constructor(public authSvc: AuthService, private msgSvc: MessageAdapterService, private router: Router) {
+    this.signupForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.pswRegex),
+      ]),
+      gdprAgree: new FormControl(false, [Validators.requiredTrue]),
     });
-    this.meta.updateTag({
-      name: 'keywords',
-      content:
-        'password, password manager, gesione password, free, passwords, passwords manager, gestione passwords, giodots password manager, signup, sign up, authentication',
-    });
-    this.setTitle('GioDots - PM Sign up');
   }
-
-  ngOnInit(): void {}
-
-  public setTitle(newTitle: string) {
-    this.title.setTitle(newTitle);
+  
+  onSignup() {
+    if (this.signupForm.invalid) return;
+    let signupValues = this.signupForm.getRawValue() as signupDTO;
+    this.signupForm.disable();
+    this.authSvc
+      .signUp(signupValues)
+      .pipe(
+        finalize(() => {
+          this.signupForm.enable();
+        })
+      )
+      .subscribe(res => {
+        this.msgSvc.addSuccess(res.message);
+        let loginValues: loginDTO = {
+          login: signupValues.username,
+          password: signupValues.password,
+        };
+        this.router.navigate(['/auth', 'login'], { state: loginValues });
+      });
   }
+  // public async signup() {
+  //   if (this.signupFormGroup.invalid) {
+  //     return;
+  //   }
+  //   let signupValues = this.signupFormGroup.getRawValue() as signupDTO;
 
-  public controlInvalid(control: AbstractControl | null): boolean {
-    if (control != null) {
-      return control.touched && control.dirty && control.invalid;
-    }
-    return true;
-  }
+  //   const response = await this.authSvc.signUp(signupValues);
 
-  public async signup() {
-    if (this.signupFormGroup.invalid) {
-      return;
-    }
-    let signupValues = this.signupFormGroup.getRawValue() as signupDTO;
+  //   this.msgSvc.pushSuccessMessage(response.message);
 
-    const response = await this.authSvc.signUp(signupValues);
-
-    this.msgSvc.pushSuccessMessage(response.message);
-
-    let loginValues: loginDTO = {
-      login: signupValues.username,
-      password: signupValues.password,
-    };
-    this.router.navigate(['/'], { state: loginValues });
-  }
+  //   let loginValues: loginDTO = {
+  //     login: signupValues.username,
+  //     password: signupValues.password,
+  //   };
+  //   this.router.navigate(['/'], { state: loginValues });
+  // }
 }

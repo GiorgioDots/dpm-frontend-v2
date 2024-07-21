@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: "https://dpm-api.giorgio-dots.com"
+  // baseUrl: "http://localhost"
 };
 
 /*

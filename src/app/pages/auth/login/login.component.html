@@ -1,0 +1,44 @@
+<form class="login-form" [formGroup]="loginForm">
+  <div class="md:hidden flex justify-content-center">
+    <img src="logo-192x192.png" style="max-height: 100px" />
+  </div>
+  <h1 class="m-0 mb-2" style="align-self: center">Hello there! 👋</h1>
+  <div class="flex flex-column gap-2">
+    <label for="login">Login</label>
+    <input
+      pInputText
+      type="text"
+      id="login"
+      autocomplete="auth-login"
+      formControlName="login"
+      class="w-full"
+    />
+  </div>
+  <div class="flex flex-column gap-2">
+    <label for="password">Password</label>
+    <p-password
+      [toggleMask]="true"
+      formControlName="password"
+      styleClass="w-full"
+      inputStyleClass="w-full"
+      [feedback]="false"
+      inputId="password"
+      autocomplete="auth-password"
+    />
+  </div>
+  <div class="flex flex-column gap-2">
+    <p-button
+      type="submit"
+      label="LOGIN"
+      [rounded]="true"
+      styleClass="w-full"
+      (onClick)="onLogin()"
+      [loading]="loginForm.disabled"
+    />
+    <div class="flex justify-content-between text-small">
+      <a [routerLink]="['/auth', 'signup']" class="text-primary text-xs">
+        Don't have an account?
+      </a>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,32 @@
+<div class="login-page-content">
+  <div class="logo-container">
+    <div class="flex flex-column align-items-center text-color">
+      <img src="logo-192x192.png" style="max-height: 75px" />
+      <h2 class="m-0">Dots</h2>
+      <h2 class="m-0">Password Manager</h2>
+    </div>
+  </div>
+  <div class="login-container">
+    <div class="login-header z-5">
+      <p-button
+        *ngIf="theme.isLightMode()"
+        (click)="theme.toggleTheme()"
+        [rounded]="true"
+        [outlined]="true"
+        [icon]="'pi pi-moon'"
+      >
+      </p-button>
+      <p-button
+        *ngIf="!theme.isLightMode()"
+        (click)="theme.toggleTheme()"
+        [rounded]="true"
+        [outlined]="true"
+        [icon]="'pi pi-sun'"
+      >
+      </p-button>
+    </div>
+    <div class="login-form-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

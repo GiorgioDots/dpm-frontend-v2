@@ -1,0 +1,79 @@
+<div class="h-full flex flex-column gap-2">
+  <p-confirmDialog
+    key="confirmDialog"
+    position="bottom"
+    rejectButtonStyleClass="p-button-outlined"
+  />
+  <p-fieldset legend="Auth" [toggleable]="true">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-wrap-reverse gap-2">
+        <button
+          label="CHANGE PASSWORD"
+          pButton
+          size="small"
+          class="w-full md:w-auto"
+        ></button>
+        <div class="flex align-items-center">
+          This button will send an email to change your password
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <div class="flex flex-wrap-reverse gap-2">
+        <button
+          pButton
+          label="DELETE ACCOUNT"
+          severity="danger"
+          class="w-full md:w-auto"
+          [loading]="deleteAccountLoading"
+          (click)="confirmDeleteAccount()"
+          size="small"
+        ></button>
+        <div class="flex align-items-center">
+          This button will delete your account permanently
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+  <p-fieldset legend="Passwords" [toggleable]="true">
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-wrap-reverse gap-2">
+        <button
+          label="EXPORT"
+          pButton
+          (click)="export()"
+          [loading]="exportLoading"
+          size="small"
+          class="w-full md:w-auto"
+        ></button>
+        <div class="flex align-items-center">
+          With this button you can export all your passwords
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <div class="flex flex-wrap-reverse gap-2">
+        <div class="w-full md:w-auto">
+          <button
+            pButton
+            label="IMPORT"
+            severity="info"
+            class="w-full"
+            [loading]="importLoading"
+            (click)="fileImport.click()"
+            size="small"
+            class="w-full"
+          ></button>
+          <input
+            #fileImport
+            type="file"
+            id="file"
+            style="display: none"
+            (change)="handleFileInput($event)"
+          />
+        </div>
+        <div class="flex align-items-center">
+          With this button you can import passwords
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+</div>

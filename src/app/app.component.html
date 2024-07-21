@@ -1,51 +1,19 @@
-<div style="height: 100%; width: 100%">
-  <div
-    *ngIf="messagesSvc.messages.length > 0"
-    style="
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      z-index: 5;
-    "
-  >
-    <h5 class="close-all-btn prevent-select" (click)="closeAllMessages()">
-      Close all
-    </h5>
-    <div class="messages-list">
-      <div
-        *ngFor="let message of messagesSvc.messages"
-        [class]="
-          'message-banner' + ' message-banner-' + message.type.toString()
-        "
-      >
-        <div class="close-message-btn" (click)="closeMessage(message)">
-          <fa-icon [icon]="faXmark"></fa-icon>
-        </div>
-        <div class="copy-message-btn" [cdkCopyToClipboard]="message.message">
-          <fa-icon [icon]="faCopy"></fa-icon>
-        </div>
-        {{ message.message }}
-      </div>
-    </div>
+<p-toast
+  [position]="'top-right'"
+  [breakpoints]="{'576px': { width: '100%', right: '0', left: '0' }}"
+/>
+@if ((sessionRefreshed | async)) {
+<router-outlet></router-outlet>
+} @else {
+<div class="h-full flex justify-content-center align-items-center">
+  <div class="flex flex-column align-items-center gap-4">
+    <p-progressSpinner
+      styleClass="w-4rem h-4rem"
+      strokeWidth="8"
+      fill="var(--surface-ground)"
+      animationDuration=".5s"
+    />
+    <span>Refreshing session, please wait</span>
   </div>
-  <router-outlet></router-outlet>
 </div>
-<div
-  *ngIf="loading"
-  style="
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  "
->
-  <app-loading></app-loading>
-</div>
+}

@@ -1,43 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { Message, MessagesService } from './services/messages.service';
-import { faXmark, faCopy } from '@fortawesome/free-solid-svg-icons';
-import { LoadingService } from './services/loading.service';
-import { delay } from 'rxjs/operators';
+import { Router, RouterOutlet } from '@angular/router';
+import { ThemeService } from './shared/services/theme.service';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { AuthenticationService } from './shared/services/authentication.service';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageAdapterService } from './shared/services/message-adapter.service';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, CommonModule, ProgressSpinnerModule, ToastModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
+  providers: [MessageService],
 })
 export class AppComponent implements OnInit {
-  faXmark = faXmark;
-  faCopy = faCopy;
-
-  public loading: boolean = false;
+  sessionRefreshed = new BehaviorSubject(false);
 
   constructor(
-    public messagesSvc: MessagesService,
-    private _loading: LoadingService
-  ) {}
-  ngOnInit(): void {
-    this.listenToLoading();
-  }
-
-  closeMessage(message: Message) {
-    this.messagesSvc.removeMessage(message);
-  }
-
-  closeAllMessages() {
-    this.messagesSvc.clear();
-  }
-
-  /**
-   * Listen to the loadingSub property in the LoadingService class. This drives the
-   * display of the loading spinner.
-   */
-  listenToLoading(): void {
-    this._loading.loadingSub.pipe(delay(50)).subscribe((loading) => {
-      this.loading = loading.find((k) => k.loading) != undefined;
+    private messageSvc: MessageService,
+    private theme: ThemeService,
+    private router: Router,
+    private primengConfig: PrimeNGConfig,
+    public authSvc: AuthenticationService,
+    public messageAdapterSvc: MessageAdapterService
+  ) {
+    messageAdapterSvc.messageAdder.subscribe((msg) => {
+      this.messageSvc.add(msg);
     });
+  }
+
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+    this.theme.initialize();
+    this.authSvc
+      .refreshToken()
+      .pipe(
+        finalize(() => {
+          this.sessionRefreshed.next(true);
+          this.router.initialNavigation();
+        })
+      )
+      .subscribe();
   }
 }

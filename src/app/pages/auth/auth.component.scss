@@ -1,0 +1,78 @@
+@import "../../../breakpoints.scss";
+
+.login-page-content {
+  height: 100%;
+  display: flex;
+  background: var(--primary-color);
+}
+
+.logo-container {
+  display: none;
+}
+
+.login-container {
+  position: relative;
+  padding: 1rem;
+  flex: 1 0 0;
+  height: 100%;
+  background-color: var(--surface-0);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-form-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@include md-breakpoint {
+  .logo-container {
+    flex: 0.5 0 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-container {
+    border-top-left-radius: 150px;
+    position: relative;
+  }
+  .login-container::before {
+    content: " ";
+    position: absolute;
+    background-color: var(--primary-color);
+    bottom: 0px;
+    left: -150px;
+    height: 150px;
+    width: 150px;
+    border-bottom-right-radius: 150px;
+    z-index: 2;
+
+  }
+  .login-container::after {
+    content: " ";
+    position: absolute;
+    background-color: var(--surface-0);
+    bottom: 0px;
+    left: -150px;
+    height: 150px;
+    width: 150px;
+  }
+}
+
+@include lg-breakpoint {
+  .logo-container {
+    flex: 0.35 0 0;
+  }
+}
